@@ -6,11 +6,12 @@ const SAMPLE_RESOURCES = [
   { title: "Spinning Up in Deep RL (OpenAI)", url: "https://spinningup.openai.com/en/latest/" }
 ];
 
+
 export const ROADMAP: WeekPlan[] = [
   {
     week: 1,
-    title: "Setup + Bandits + 'RL mindset'",
-    goal: "Understand exploration/exploitation and build your experiment harness.",
+    title: "Bandits + Experimental RL Mindset",
+    goal: "Understand exploration/exploitation, regret minimization, and build a solid experimental harness.",
     theory: ["Sutton & Barto Ch. 1–2"],
     papers: {
       must: [
@@ -23,56 +24,105 @@ export const ROADMAP: WeekPlan[] = [
       ]
     },
     implementation: [
-      "Bandit suite: ε‑greedy, UCB1, Thompson Sampling",
-      "Plot regret vs steps, sensitivity to hyperparameters",
-      "Build your standard logging: metrics, seeds, config saving"
+      "Bandit suite: ε-greedy, UCB1, Thompson Sampling",
+      "Optimistic initialization vs explicit exploration bonuses",
+      "Non-stationary bandits: drifting means and abrupt change points",
+      "Compare sliding-window UCB vs discounted Thompson Sampling",
+      "Multiple seeds + confidence intervals over regret",
+      "Plot regret vs steps; sensitivity to hyperparameters",
+      "Build standard experiment harness: logging, metrics, seeds, config saving"
     ],
     jaxFocus: [
-      "JAX basics: arrays, jit, grad, vmap + “sharp bits” mental model",
-      "Implement bandit simulation with vmap to feel vectorization"
+      "JAX basics: arrays, jit, grad, vmap + sharp-bits mental model",
+      "Trace → compile → execute: what runs once vs every step",
+      "Vectorized simulations with vmap (many bandits, many seeds)"
     ],
     controlQuestions: [
       "What is regret and why is it the right objective for bandits?",
-      "Why does ε‑greedy converge slowly compared to UCB-style methods?",
+      "Why does ε-greedy converge slowly compared to UCB-style methods?",
       "Derive the UCB bonus term: what intuition does it encode?",
       "What does Thompson Sampling sample, and why does that induce exploration?",
       "What changes when rewards are non-stationary?",
-      "In JAX: what does “pure function” mean, and why does jit care?"
+      "Why are bandits not just MDPs with one state — what intuition is lost?",
+      "In what sense are bandits an online statistical estimation problem?",
+      "In JAX: what does a pure function mean, and why does jit care?"
     ],
-    resources: SAMPLE_RESOURCES
+    resources: [
+      {
+        title: "Sutton & Barto — Reinforcement Learning: An Introduction (2nd ed.)",
+        url: "http://incompleteideas.net/book/the-book-2nd.html"
+      },
+      {
+        title: "Bandit Algorithms (Lattimore & Szepesvári)",
+        url: "https://tor-lattimore.com/downloads/book/book.pdf"
+      },
+      {
+        title: "DeepMind RL Lecture Series",
+        url: "https://www.youtube.com/playlist?list=PLqYmG7hTraZDVH599EItlE6umKx0cOid"
+      },
+      {
+        title: "JAX Documentation: The Sharp Bits",
+        url: "https://jax.readthedocs.io/en/latest/notebooks/Common_Gotchas_in_JAX.html"
+      }
+    ]
   },
   {
     week: 2,
     title: "MDPs + Dynamic Programming",
-    goal: "Master Bellman equations and tabular planning.",
+    goal: "Understand value functions, policies, and exact planning in known MDPs.",
     theory: ["Sutton & Barto Ch. 3–4"],
     papers: {
       must: [{ title: "A Markovian Decision Process", authors: "Bellman", year: 1957 }],
       optional: [{ title: "Dynamic Programming and Markov Processes", authors: "Howard", year: 1960 }]
     },
     implementation: [
-      "Tabular MDP class + policy evaluation",
-      "Policy iteration + value iteration",
-      "Validate on Gridworld, Gambler’s problem"
+      "Tabular MDP class with explicit dynamics (P, R)",
+      "Synchronous vs asynchronous Bellman updates",
+      "Policy evaluation (V^π and Q^π)",
+      "Policy iteration and value iteration",
+      "Track policy stability across iterations",
+      "Extract greedy policies from V and Q (π_V vs π_Q)",
+      "Validate on Gridworld and Gambler’s Problem"
     ],
     jaxFocus: [
-      "Implement Bellman backup with vmap",
-      "Learn “static shapes” + why loops become lax.scan later"
+      "Bellman backups with vmap",
+      "Static shapes and pure functions",
+      "Why DP is embarrassingly parallel (and why learning is not)",
+      "Prepare for replacing Python loops with lax.scan"
     ],
     controlQuestions: [
-      "What’s the difference between policy evaluation and control?",
-      "Write the Bellman expectation equation for (V^π) and (Q^π).",
-      "Why is the Bellman optimality operator a contraction (γ < 1)?",
+      "What is the difference between policy evaluation and control?",
+      "Write the Bellman expectation equations for V^π and Q^π.",
+      "Why is the Bellman optimality operator a contraction for γ < 1?",
       "When does policy iteration outperform value iteration?",
-      "What breaks when γ=1 and continuing tasks are not absorbing?",
-      "In JAX: why does Python control flow often need rewriting (e.g., lax.scan)?"
+      "What breaks when γ = 1 in continuing tasks?",
+      "Why is Dynamic Programming rarely used directly in real problems?",
+      "What assumptions about the environment does DP rely on?",
+      "In JAX: why does Python control flow often need rewriting?"
     ],
-    resources: SAMPLE_RESOURCES
+    resources: [
+      {
+        title: "Sutton & Barto — Reinforcement Learning: An Introduction (2nd ed.)",
+        url: "http://incompleteideas.net/book/the-book-2nd.html"
+      },
+      {
+        title: "David Silver — Reinforcement Learning Course",
+        url: "https://www.davidsilver.uk/teaching/"
+      },
+      {
+        title: "DeepMind RL Lecture Series",
+        url: "https://www.youtube.com/playlist?list=PLqYmG7hTraZDVH599EItlE6umKx0cOid"
+      },
+      {
+        title: "JAX Documentation: Control Flow",
+        url: "https://jax.readthedocs.io/en/latest/control-flow.html"
+      }
+    ]
   },
   {
     week: 3,
-    title: "Monte Carlo + TD Learning (tabular)",
-    goal: "Understand bias/variance and bootstrapping.",
+    title: "Monte Carlo vs Temporal-Difference Learning",
+    goal: "Understand bias–variance tradeoffs and the role of bootstrapping.",
     theory: ["Sutton & Barto Ch. 5–6"],
     papers: {
       must: [
@@ -82,23 +132,49 @@ export const ROADMAP: WeekPlan[] = [
       optional: []
     },
     implementation: [
-      "MC prediction + MC control (ε‑soft)",
-      "TD(0), SARSA, Q-learning, Expected SARSA",
-      "Evaluate on CliffWalking + Blackjack"
+      "Monte Carlo prediction and MC control (ε-soft)",
+      "Online vs episodic learning comparison",
+      "TD(0), n-step TD (n = 2, 4, ∞)",
+      "SARSA, Expected SARSA, Q-learning",
+      "Constant vs decaying step-size schedules",
+      "Demonstrate instability or divergence with poor hyperparameters",
+      "Evaluate on CliffWalking and Blackjack"
     ],
     jaxFocus: [
-      "Implement TD(0) update in JAX (pure function)",
-      "Start using PRNG keys lightly (even for ε‑greedy choices)"
+      "TD updates as pure JAX functions",
+      "Explicit environment state (no hidden mutation)",
+      "PRNG key splitting for ε-greedy and sampling",
+      "Scan-based episode rollouts (preview of trajectory batching)"
     ],
     controlQuestions: [
       "MC vs TD: which has higher bias, which has higher variance, and why?",
       "What is the TD error δ and what does it estimate?",
-      "SARSA vs Q-learning: what changes “on-policy vs off-policy” in the update?",
-      "Why does Q-learning need sufficient exploration for convergence?",
+      "How do n-step methods unify MC and TD?",
+      "SARSA vs Q-learning: what changes in on-policy vs off-policy updates?",
+      "Why does Q-learning require sufficient exploration for convergence?",
       "When is Expected SARSA preferable?",
+      "Why can TD methods learn online while MC methods cannot?",
+      "Why does bootstrapping introduce bias, and why is that sometimes beneficial?",
       "In JAX: how do you handle randomness without global RNG state?"
     ],
-    resources: SAMPLE_RESOURCES
+    resources: [
+      {
+        title: "Sutton & Barto — Reinforcement Learning: An Introduction (2nd ed.)",
+        url: "http://incompleteideas.net/book/the-book-2nd.html"
+      },
+      {
+        title: "David Silver — Reinforcement Learning Course",
+        url: "https://www.davidsilver.uk/teaching/"
+      },
+      {
+        title: "Spinning Up in Deep RL (OpenAI)",
+        url: "https://spinningup.openai.com/en/latest/"
+      },
+      {
+        title: "JAX PRNG Design",
+        url: "https://jax.readthedocs.io/en/latest/random-numbers.html"
+      }
+    ]
   },
   {
     week: 4,
