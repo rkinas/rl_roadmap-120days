@@ -160,7 +160,7 @@ const WeekAccordionItem: React.FC<{
                   <section className="bg-slate-800/30 p-5 rounded-xl border border-white/5 backdrop-blur-sm">
                     <div className="flex items-center gap-2 mb-4">
                       <LinkIcon className="w-4 h-4 text-slate-400" />
-                      <h4 className="font-bold text-slate-400 uppercase text-[10px] tracking-widest">DeepMind Scholar Resources</h4>
+                      <h4 className="font-bold text-slate-400 uppercase text-[10px] tracking-widest">Resources</h4>
                     </div>
                     <div className="space-y-2">
                       {plan.resources?.map((res, i) => (
@@ -290,7 +290,7 @@ export default function Home() {
         <header className="mb-16 text-center space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-cyan-400 mb-4 backdrop-blur-sm">
             <Brain className="w-3 h-3" />
-            <span>DEEPMIND INSPIRED CURRICULUM</span>
+            <span>REINFORCEMENT LEARNING ROADMAP</span>
           </div>
           
           <h1 className="text-5xl sm:text-7xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 mb-4">

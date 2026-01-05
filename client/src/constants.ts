@@ -618,10 +618,10 @@ export const CAPSTONES: Capstone[] = [
 
 export const STRATEGY_CONTENT = {
   daily: [
-    { time: "75–90 min", task: "Sutton chapter sections + 1 paper (notes + “what’s the key idea?”)" },
-    { time: "120 min", task: "Implement the week’s algorithm (minimal, correct, tested)" },
-    { time: "30–45 min", task: "Run experiments + plots + seed sanity checks" },
-    { time: "10–15 min", task: "Write a short log (“what worked/failed, what I learned”)" }
+    { time: "75–90m", task: "Sutton chapter sections + 1 paper (notes + “what’s the key idea?”)" },
+    { time: "120m", task: "Implement the week’s algorithm (minimal, correct, tested)" },
+    { time: "30–45m", task: "Run experiments + plots + seed sanity checks" },
+    { time: "10–15m", task: "Write a short log (“what worked/failed, what I learned”)" }
   ],
   weekly: [
     { days: "Days 1–5", task: "Learn + Implement" },
